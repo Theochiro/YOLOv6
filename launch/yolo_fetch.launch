@@ -1,0 +1,16 @@
+<launch>
+    <arg name="path" default="/home/theo-yifan/Desktop/crowd_yolo/" />
+    <arg name="bag_file" default="test" />
+    <arg name="image_topic" default="/camera/rgb/image_raw" />
+
+    <node pkg="rosbag" type="play" name="player" output="screen" args="--loop $(arg path)$(arg bag_file).bag"/>
+    
+    <node pkg="image_transport" type="republish" name="rgb_compress" output="screen" args="raw in:=$(arg image_topic) compressed out:=/camera/rgb/image_raw"/>
+
+    <!-- <node pkg="image_transport" type="image_transport" name="image_transport" output="screen">
+        <remap from="$(arg image_topic)" to="/camera/rgb/image_raw">
+    </node> -->
+    
+    <node type="rviz" name="rviz" pkg="rviz" args="-d /YOLOv6/rviz/default.rviz" />
+
+</launch>
